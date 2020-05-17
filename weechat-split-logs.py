@@ -5,17 +5,7 @@ import glob
 import os
 from datetime import datetime
 
-if len(sys.argv) != 3:
-    print(f"Usage: {sys.argv[0]} <log/dir> <output/dir/with/%Y/%m>")
-    print("Supported date formatting: https://docs.python.org/3/library/datetime.html#strftime-strptime-behavior")
-    sys.exit(1)
-
-log_dir = sys.argv[1]
-output_dir_format = sys.argv[2]
-
-log_files_in = glob.glob(os.path.join(log_dir, "*.weechatlog"))
-
-for log_file_path in log_files_in:
+def split_log_file(log_file_path, output_dir_format):
     print(f"Processing {log_file_path}...")
     base_name = os.path.basename(log_file_path)
 
@@ -50,3 +40,17 @@ for log_file_path in log_files_in:
     if current_file != None:
         # print(f"\tWrote {n} lines to {current_file_name}")
         current_file.close()
+
+if __name__ == "__main__":
+    if len(sys.argv) != 3:
+        print(f"Usage: {sys.argv[0]} <log/dir> <output/dir/with/%Y/%m>")
+        print("Supported date formatting: https://docs.python.org/3/library/datetime.html#strftime-strptime-behavior")
+        sys.exit(1)
+
+    log_dir = sys.argv[1]
+    output_dir_format = sys.argv[2]
+
+    log_files_in = glob.glob(os.path.join(log_dir, "*.weechatlog"))
+
+    for log_file_path in log_files_in:
+        split_log_file(log_file_path, output_dir_format)
